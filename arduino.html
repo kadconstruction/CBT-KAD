@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page title</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+    <h1>ARDUINO QUESTIONS</h1>
+    <hr>
+     <form action="https://formsubmit.co/nimikoladelakin@gmail.com" method="POST">
+
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_template" value="table">
+
+  <!-- Hidden user data -->
+  <input type="hidden" name="Result Summary" id="resultSummary">
+  <input type="hidden" name="First Name" id="hiddenFname">
+  <input type="hidden" name="Last Name" id="hiddenLname">
+  <input type="hidden" name="Email" id="hiddenEmail">
+  <input type="hidden" name="Topic" id="hiddenTopic">
+  
+ <div id="timer" class="tim">Time Left: <span id="time">05:00</span></div>
+    <!-- Questions -->
+    <div>
+    <legend>1. An LED can be connected directly to Arduino without any wires or pins.</legend>
+    <ul class="answers-list">
+      <li>
+        <label for="q1-a1"><input type="radio" id="q1-a1" name="q1" value="incorrect"> True</label>
+      </li>
+      
+      <li>
+        <label for="q1-a2"><input type="radio" id="q1-a2" name="q1" value="correct"> False</label>
+      </li>      
+    </ul>
+    </div>
+    
+    <div>
+    <legend>2. What is an Arduino.</legend>
+    <ul class="answers-list">
+      <li>
+        <label for="q2-a1"><input type="checkbox" id="q2-a1" name="q2" value="incorrect"> An Audio Device</label>
+      </li>
+      
+      <li>
+        <label for="q2-a2"><input type="checkbox" id="q2-a2" name="q2" value="correct"> A Microcontroller</label>
+      </li>      
+    </ul>
+    </div>
+    
+    <div>
+    <legend>3. What is an Arduino used for.</legend>
+    <ul class="answers-list">
+      <li>
+        <label for="q3-a1"><input type="checkbox" id="q3-a1" name="q3" value="correct"> To control circuit</label>
+      </li>
+      
+      <li>
+        <label for="q3-a2"><input type="checkbox" id="q3-a2" name="q3" value="incorrect"> To generate electrons</label>
+      </li>      
+    </ul>
+    </div>
+    
+    <div>
+    <legend>4. What is the main function of an Arduino board?</legend>
+    <ul class="answers-list">
+      <li>
+        <label for="q4-a1"><input type="checkbox" id="q4-a1" name="q4" value="incorrect"> To store files</label>
+      </li>
+      <li>
+        <label for="q4-a2"><input type="checkbox" id="q4-a2" name="q4" value="correct"> To control electronic components</label>
+      </li>
+      <li>
+        <label for="q4-a3"><input type="checkbox" id="q4-a3" name="q4" value="incorrect"> To browse the internet</label>
+      </li>      
+      <li>
+        <label for="q4-a4"><input type="checkbox" id="q4-a4" name="q4" value="incorrect"> To play music</label>
+      </li>      
+    </ul>
+    </div>
+    
+    <button class="btn" type="submit">Submit</button>
+    </form>
+
+    <footer>© 2026 KAD CBT</footer>
+    
+<script>
+// =====================
+// TIMER SETTINGS
+// =====================
+let totalTime = 300; // 5 minutes
+
+function startTimer() {
+
+  const timerDisplay = document.getElementById("time");
+
+  const countdown = setInterval(() => {
+
+    let minutes = Math.floor(totalTime / 60);
+    let seconds = totalTime % 60;
+
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    timerDisplay.textContent = `${minutes}:${seconds}`;
+
+    totalTime--;
+
+    if (totalTime < 0) {
+
+      clearInterval(countdown);
+
+      alert("Time is up! Submitting...");
+      document.querySelector("form").submit();
+    }
+
+  }, 1000);
+}
+
+
+// =====================
+// QUESTIONS
+// =====================
+const questions = {
+  q1: "An LED can be connected directly to Arduino without any wires or pins.",
+  q2: "What is an Arduino?",
+  q3: "What is an Arduino used for?",
+  q4: "What is the main function of an Arduino board?"
+};
+
+
+// =====================
+// PAGE LOAD
+// =====================
+window.onload = function () {
+
+  startTimer();
+
+  // =====================
+  // LOAD USER DATA
+  // =====================
+  const fname = localStorage.getItem("fname");
+  const lname = localStorage.getItem("lname");
+  const email = localStorage.getItem("email");
+  const topic = localStorage.getItem("topic");
+
+  // Stop if no user data
+  if (!fname || !topic) {
+
+    alert("Please start from login page.");
+    window.location.href = "profile.html";
+    return;
+  }
+
+  // Fill hidden inputs
+  document.getElementById("hiddenFname").value = fname;
+  document.getElementById("hiddenLname").value = lname;
+  document.getElementById("hiddenEmail").value = email;
+  document.getElementById("hiddenTopic").value = topic;
+};
+
+
+// =====================
+// FORM SUBMIT
+// =====================
+document.querySelector("form").addEventListener("submit", function () {
+
+  let resultText = "";
+  let totalScore = 0;
+
+  const totalQuestions = Object.keys(questions).length;
+
+  // =====================
+  // CHECK EACH QUESTION
+  // =====================
+  for (let q in questions) {
+
+    const selected = document.querySelectorAll(`input[name="${q}"]:checked`);
+
+    let selectedValues = [];
+    let questionScore = 0;
+
+    selected.forEach(input => {
+
+      selectedValues.push(input.value);
+
+      // correct = 1 point
+      if (input.value.toLowerCase() === "correct") {
+        questionScore += 1;
+      }
+
+      // incorrect = 0 point
+      else {
+        questionScore += 0;
+      }
+
+    });
+
+    totalScore += questionScore;
+
+    // No answer selected
+    if (selectedValues.length === 0) {
+      selectedValues.push("No Answer");
+    }
+
+    // Add to result summary
+    resultText += `Question: ${questions[q]}\n`;
+    resultText += `Selected Value: ${selectedValues.join(", ")}\n`;
+    resultText += `Points: ${questionScore}\n`;
+    resultText += `-----------------------------\n`;
+  }
+
+  // =====================
+  // FINAL RESULT
+  // =====================
+  let percentage = (totalScore / totalQuestions) * 100;
+
+  resultText += `Final Score: ${totalScore}/${totalQuestions}\n`;
+  resultText += `Percentage: ${percentage}%`;
+
+  // Put result in hidden field
+  document.getElementById("resultSummary").value = resultText;
+
+});
+</script>
+</body>
+</html>

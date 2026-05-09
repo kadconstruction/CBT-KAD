@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page title</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <h1>SUBJECTS</h1>
+    <div id="subjectpage">
+        
+      <form>
+     <div class="subject">
+       <h3>Arduino</h3>
+       <button class="btn1" type="button" onclick="goToTopic('arduino')">Take</button>
+      </div>
+      </form>
+      
+      <form>
+     <div class="subject">
+       <h3>Controller</h3>
+       <button class="btn2" type="button" onclick="goToTopic('controller')">Take</button>
+      </div>
+      </form>
+      
+      <form>
+     <div class="subject">
+       <h3>Robotics</h3>
+       <button class="btn3" type="button" onclick="goToTopic('robotics')">Take</button>
+      </div>
+      </form>
+    
+    </div>
+    
+    <footer>© 2026 KAD CBT</footer>
+    
+    <script>
+function goToTopic(topic) {
+
+    // Save topic (still useful for email later)
+    localStorage.setItem("topic", topic);
+
+    // Redirect based on topic
+    if (topic === "arduino") {
+        window.location.href = "arduino.html";
+    } 
+    else if (topic === "controller") {
+        window.location.href = "controller.html";
+    } 
+    else if (topic === "robotics") {
+        window.location.href = "robotics.html";
+    }
+}
+</script>
+</body>
+</html>
